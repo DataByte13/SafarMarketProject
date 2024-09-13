@@ -131,7 +131,12 @@ def main():
     lng_step = 0.05
     latlng_grid = generate_latlng_grid(min_lat, max_lat, min_lng, max_lng, lat_step, lng_step)
 
-    db_handler = SqlManager.DBHandler(user='root', password='rootpassword', host='localhost', database='Locations_DataBase')
+    db_handler = SqlManager.DBHandler(
+        user=os.getenv('MYSQL_USER', 'root'),
+        password=os.getenv('MYSQL_PASSWORD', ''), 
+        host=os.getenv('MYSQL_HOST', 'localhost'), 
+        database=os.getenv('MYSQL_DATABASE', '')
+    )
     db_handler.connect()
     db_handler.create_table()
 
@@ -161,7 +166,9 @@ def main():
                 time.sleep(5)
             else:
                 time.sleep(1)  
-            if count == 100 :
+            if count == 200 :
+                print("I reached the 200 request period so")
+                print("I will be quiet for a little 5 minute nap. Do not turn me off during this time")
                 time.sleep(300)
         break
     

@@ -1,5 +1,5 @@
 import pymysql
-
+import time
 class DBHandler:
     def __init__(self, user, password, host, database):
         self.user = user
@@ -26,19 +26,24 @@ class DBHandler:
              raise
 
     def connect(self):
-        try:
-            self.connection = pymysql.connect(
-                host=self.host,
-                user=self.user,
-                password=self.password,
-                database=self.database,
-                cursorclass=pymysql.cursors.DictCursor
-            )
-            self.cursor = self.connection.cursor()
-            print("Database connection established.")
-        except pymysql.MySQLError as e:
-            print(f"Error connecting to MySQL database: {e}")
-            raise
+        retries = 10
+        while retries > 0 :
+            try:
+                self.connection = pymysql.connect(
+                    host=self.host,
+                    user=self.user,
+                    password=self.password,
+                    database=self.database,
+                    cursorclass=pymysql.cursors.DictCursor
+                )
+                self.cursor = self.connection.cursor()
+                print("Database connection established.")
+                return 
+            except pymysql.MySQLError as e:
+                retries -=1 
+                print(f"Error connecting to MySQL database: {e} -- {retries} more retries")
+                time.sleep(10)
+        raise Exception("Could not connect to MySQL after several retries")
     def create_table(self):
         """Create the table if it doesn't exist."""
         create_table_query = """
