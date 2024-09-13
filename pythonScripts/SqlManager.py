@@ -8,7 +8,7 @@ class DBHandler:
         self.database = database
         self.connection = None
         self.cursor = None
-
+        self.insertTracker = 0
     def create_database(self):
          try:
              connection = pymysql.connect(
@@ -26,7 +26,6 @@ class DBHandler:
              raise
 
     def connect(self):
-        """Connect to the MySQL database."""
         try:
             self.connection = pymysql.connect(
                 host=self.host,
@@ -40,7 +39,6 @@ class DBHandler:
         except pymysql.MySQLError as e:
             print(f"Error connecting to MySQL database: {e}")
             raise
-
     def create_table(self):
         """Create the table if it doesn't exist."""
         create_table_query = """
@@ -69,16 +67,13 @@ class DBHandler:
 
     def insert_data(self, json_data):
         """Insert data into the table."""
+        select_query = "SELECT COUNT(*) FROM locations WHERE SafarMarketID = %s"
         insert_query = """
         INSERT INTO locations (SafarMarketID, Title, Description, Latitude, Longitude, Type, Image, Slug, Rate, RateCount)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         try:
             for entry in json_data:
-                # Debugging: print the entry being inserted
-                print(f"Inserting entry: {entry}")
-
-                # Extracting values with default to avoid NoneType issues
                 values = (
                     entry.get('id', None),
                     entry.get('title', None),
@@ -91,16 +86,21 @@ class DBHandler:
                     entry.get('rate', None),
                     entry.get('ratecount', None)
                 )
-                self.cursor.execute(insert_query, values)
+                safar_market_id = entry.get('id', None)
+                self.cursor.execute(select_query, (safar_market_id,))
+                exists = self.cursor.fetchone()['COUNT(*)']
+                if exists == 0 :
+                    self.cursor.execute(insert_query, values)
+                    self.insertTracker += 1
             self.connection.commit()
-            print(f"{len(json_data)} records inserted into the 'locations' table.")
         except pymysql.MySQLError as e:
             print(f"Error inserting data: {e}")
             self.connection.rollback()
             raise
+    def insert_status(self):
+        return self.insertTracker 
 
     def close(self):
-        """Close the database connection."""
         if self.connection:
             self.connection.close()
             print("Database connection closed.")
