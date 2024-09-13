@@ -7,7 +7,7 @@ public partial class Location
 {
     public int Id { get; set; }
 
-    public string? SafarMarketId { get; set; }
+    public int? SafarMarketId { get; set; }
 
     public string? Title { get; set; }
 

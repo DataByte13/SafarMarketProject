@@ -1,6 +1,9 @@
+using ApplicationWebApi.Features;
+using ApplicationWebApi.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore;
 using ApplicationWebApi.Models;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,13 +16,14 @@ builder.Services.AddSwaggerGen();
 var configuring = builder.Configuration;
 
 var connectionString = Environment.GetEnvironmentVariable("TravelConnectionString") ??
-builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Configuration.GetConnectionString("TravelConnectionString");
 
-builder.Services.AddDbContext<TravelDataContext>(options =>
+builder.Services.AddDbContext<LocationsDataBaseContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 32))
       ));
-
-//--------------
+builder.Services.AddScoped<DbContext, LocationsDataBaseContext>();
+//--------------DI
+builder.Services.AddScoped<ITravelLocations, TravelLocations>();
 
 
 var app = builder.Build();

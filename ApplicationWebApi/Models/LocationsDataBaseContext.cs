@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationWebApi.Models;
 
-public partial class TravelDataContext : DbContext
+public partial class LocationsDataBaseContext : DbContext
 {
-    public TravelDataContext()
+    public LocationsDataBaseContext()
     {
     }
 
-    public TravelDataContext(DbContextOptions<TravelDataContext> options)
+    public LocationsDataBaseContext(DbContextOptions<LocationsDataBaseContext> options)
         : base(options)
     {
     }
@@ -37,7 +37,7 @@ public partial class TravelDataContext : DbContext
             entity.Property(e => e.Image).HasMaxLength(255);
             entity.Property(e => e.RateCount).HasColumnType("int(11)");
             entity.Property(e => e.SafarMarketId)
-                .HasMaxLength(255)
+                .HasColumnType("int(11)")
                 .HasColumnName("SafarMarketID");
             entity.Property(e => e.Slug).HasMaxLength(255);
             entity.Property(e => e.Title).HasMaxLength(255);

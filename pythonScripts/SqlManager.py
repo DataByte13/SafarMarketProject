@@ -9,6 +9,22 @@ class DBHandler:
         self.connection = None
         self.cursor = None
 
+    def create_database(self):
+         try:
+             connection = pymysql.connect(
+                 host=self.host,
+                 user=self.user,
+                 password=self.password,
+                 cursorclass=pymysql.cursors.DictCursor
+             )
+             with connection.cursor() as cursor:
+                 cursor.execute(f"CREATE DATABASE IF NOT EXISTS {self.database}")
+             connection.close()
+             print(f"Database '{self.database}' created or already exists.")
+         except pymysql.MySQLError as e:
+             print(f"Error creating database: {e}")
+             raise
+
     def connect(self):
         """Connect to the MySQL database."""
         try:
@@ -33,12 +49,12 @@ class DBHandler:
             SafarMarketID INT,
             Title VARCHAR(255),
             Description TEXT,
-            Latitude DOUBLE,
-            Longitude DOUBLE,
+            Latitude FLOAT,
+            Longitude FLOAT,
             Type VARCHAR(255),
             Image VARCHAR(255),
             Slug VARCHAR(255),
-            Rate DOUBLE,
+            Rate FLOAT,
             RateCount INT
         )
         """

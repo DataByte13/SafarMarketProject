@@ -5,8 +5,8 @@ namespace ApplicationWebApi.Interfaces
 {
     public interface ITravelLocations
     {
-        GetTravelLocatoinDto GetLocatoins(LatitudeAndLongitude Origin, LatitudeAndLongitude destination);
-        bool SetRateOnLocatoin(int Id ,float rate);
-      
+        List<GetTravelLocatoinDto> GetLocatoins(LatitudeAndLongitude Geographiccoordinates, int radiusKm);
+        bool SetRateOnLocatoin(int Id, float newRate);
+
     }
 }

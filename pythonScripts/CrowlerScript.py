@@ -95,7 +95,7 @@ def main():
     lng_step = 0.2
 
     latlng_grid = generate_latlng_grid(min_lat, max_lat, min_lng, max_lng, lat_step, lng_step)
-    db_handler = SqlManager.DBHandler(user='root', password='rootpassword', host='localhost', database='travel_data')
+    db_handler = SqlManager.DBHandler(user='root', password='rootpassword', host='localhost', database='Locations_DataBase')
     db_handler.connect()
     db_handler.create_table()
 
