@@ -1,0 +1,68 @@
+# Ignore build outputs and related files
+/bin/
+/obj/
+
+# Ignore user-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore Rider project files
+.idea/
+/*.sln.iml
+/rider.project.restore.info
+
+# Ignore Visual Studio Code files
+.vscode/
+
+# Ignore build directories
+/ApplicationApi/bin/
+/ApplicationApi/obj/
+/Identity/bin/
+/Identity/obj/
+
+# Ignore NuGet packages
+*.nupkg
+*.snupkg
+
+# Ignore build logs
+*.log
+*.tlog
+
+# Ignore EF Migrations history
+*.Designer.cs
+
+# Ignore local configuration files
+ApplicationApi/Properties/launchSettings.json
+ApplicationApi/appsettings.Development.json
+
+# Ignore generated code files
+*.generated.cs
+
+# Ignore Rider workspace folders
+.idea/
+
+# Ignore Rider and JetBrains IDE configs
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# Ignore build output files
+/build/
+out/
+
+# Ignore coverage files
+coverage/
+*.lcov
+
+# Ignore crash reports
+*.crash
+*.dmp
+
+# Ignore other unwanted files
+.DS_Store
+Thumbs.db
+
